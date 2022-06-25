@@ -1,0 +1,51 @@
+{{#if error}}
+  <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+    {{error}}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+{{/if}}
+
+<main>
+  <div class="card text-center mt-4" style="width: 22rem;">
+    <h2 class="my-3">Login</h2>
+    <div class="card-body">
+      <form action="/login" method="post">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">@</span>
+          <input
+            name="user"
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-default">*</span>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default"
+          />
+        </div>
+        <button class="btn btn-danger">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  document.addEventListener("keypress", (e) => { if (e.keyCode == 13) {
+  document.querySelector("form").submit(); } });
+
+</script>
