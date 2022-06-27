@@ -1,7 +1,7 @@
 {
   "name": "red-social",
   "version": "1.0.0",
-  "description": "This a red social created with me",
+  "description": "This a 'red social' created with me",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
