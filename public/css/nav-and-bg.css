@@ -4,5 +4,9 @@ body {
 }
 
 .display-5 {
-  font-size: calc(1.425rem + 2.1vw);
+  font-size: calc(1.2rem + 2vw);
+}
+
+.dropdown-menu[data-bs-popper] {
+  left: -75px;
 }
