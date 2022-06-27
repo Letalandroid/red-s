@@ -5,20 +5,19 @@ const bcrypt = require("bcryptjs");
 const reds_Schema = new Schema(
   {
     user: String,
-    password: String,
-    pass_repeat: String,
+    password: String
   },
   { versionKey: false }
 );
 
 // Encriptar contraseña
 reds_Schema.methods.encryptPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSaltSync(10);
   return await bcrypt.hash(password, salt);
 }
 
-reds_Schema.methods.matchPassword = async (password) => {
-  return await bcrypt.compare(password, this.password);
+reds_Schema.methods.matchPassword = async function (password) {
+  return await bcrypt.compareSync(password, this.password);
 }
 
 // Crear un modelo

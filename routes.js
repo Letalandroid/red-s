@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const db = require("./models/users");
-const { ex } = require("./models/users");
+const bcrypt = require("bcryptjs");
+
 const router = Router();
 
 router.get("/", (_req, res) => {
@@ -19,13 +20,13 @@ router.get("/register", async (_req, res) => {
 
 router.post("/register", async (req, res) => {
   const { user, password, pass_repeat } = req.body;
-  const userExist = await db.findOne({ user });
+  const userExisting = await db.findOne({ user });
 
-  if (userExist) {
+  if (userExisting) {
     res.render("register", {
       title: "Register",
       style: "register",
-      error: "User already exist",
+      error: "User already Use",
     });
   } else if (password === pass_repeat) {
     const newUser = new db({
@@ -36,7 +37,7 @@ router.post("/register", async (req, res) => {
     newUser.password = await newUser.encryptPassword(password);
 
     await newUser.save();
-    res.redirect("/");
+    res.redirect("/login");
   } else if (password !== pass_repeat) {
     res.render("register", {
       title: "Register",
@@ -54,13 +55,16 @@ router.get("/login", async (_req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { user, password } = req.body;
-  const match = await ex.matchPassword(password);
+  const { user } = req.body;
 
-  const userExist = await db.findOne({ user });
-  if (userExist) {
-    if (match) {
+  const userExisting = await db.findOne({ user });
+
+  if (userExisting) {
+    if (await bcrypt.compareSync(req.body.password, userExisting.password)) {
+
+      localStorage.setItem("user", user);
       res.redirect("/");
+
     } else {
       res.render("login", {
         title: "Login",
@@ -72,7 +76,7 @@ router.post("/login", async (req, res) => {
     res.render("login", {
       title: "Login",
       style: "login",
-      error: "User does not exist",
+      error: "User does not existing",
     });
   }
 });
