@@ -1,13 +1,18 @@
 const { Router } = require("express");
-const db = require("./models/users");
+const userModel = require("./models/users");
+const postModel = require("./models/posts");
 const bcrypt = require("bcryptjs");
 
 const router = Router();
 
-router.get("/", (_req, res) => {
+router.get("/", async (_req, res) => {
+
+  const posts = await postModel.find().lean();
+
   res.render("home", {
     title: "Home",
-    style: "home",
+    posts,
+    style: "home"
   });
 });
 
@@ -20,7 +25,7 @@ router.get("/register", async (_req, res) => {
 
 router.post("/register", async (req, res) => {
   const { user, password, pass_repeat } = req.body;
-  const userExisting = await db.findOne({ user });
+  const userExisting = await userModel.findOne({ user });
 
   if (userExisting) {
     res.render("register", {
@@ -29,7 +34,7 @@ router.post("/register", async (req, res) => {
       error: "User already Use",
     });
   } else if (password === pass_repeat) {
-    const newUser = new db({
+    const newUser = new userModel({
       user,
       password
     });
@@ -57,13 +62,12 @@ router.get("/login", async (_req, res) => {
 router.post("/login", async (req, res) => {
   const { user } = req.body;
 
-  const userExisting = await db.findOne({ user });
+  const userExisting = await userModel.findOne({ user });
 
   if (userExisting) {
     if (await bcrypt.compareSync(req.body.password, userExisting.password)) {
 
-      localStorage.setItem("user", user);
-      res.redirect("/");
+      res.render("save", { user: userExisting.user });
 
     } else {
       res.render("login", {
@@ -79,6 +83,27 @@ router.post("/login", async (req, res) => {
       error: "User does not existing",
     });
   }
+});
+
+router.post("/", async (req, res) => {
+  const { title, description, user } = req.body;
+  const newPost = new postModel({
+    title,
+    description,
+    user
+  });
+
+  await newPost.save();
+  res.redirect("/");
+});
+
+router.get("/logout", async (_req, res) => {
+
+  res.render("logout", {
+    title: "Logout",
+    style: "logout",
+  });
+
 });
 
 module.exports = router;

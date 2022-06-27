@@ -1,0 +1,10 @@
+img {
+    object-fit: cover;
+    height: 100px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

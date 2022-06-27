@@ -10,3 +10,17 @@ body {
 .dropdown-menu[data-bs-popper] {
   left: -75px;
 }
+
+.navbar-nav {
+    justify-content: space-between;
+    width: 110px;
+    color: #ffffff8c;
+}
+
+.dropdown-item {
+    padding: 10px 0;
+}
+
+i {
+  color: #fff;
+}

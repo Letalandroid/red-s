@@ -1,0 +1,46 @@
+<main>
+  <div class="card text-center mt-4" style="width: 22rem;"></div>
+  <div class="d-flex justify-content-center align-items-center flex-wrap">
+    {{#each posts}}
+    <div class="card m-3">
+      <div class="card-body">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+        <p class="card-text"><small id="user" class="text-muted">~ {{ user }}</small></p>
+      </div>
+      {{#if userImage}}
+        <img src={{userImage}} class="card-img-bottom" alt="..." />
+      {{else}}
+        <svg
+          viewBox="0 0 500 150"
+          preserveAspectRatio="none"
+          style="height: 100px; width: 100%;"
+        ><path
+            d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+            style="stroke: none; fill: #f002;"
+          ></path></svg>
+      {{/if}}
+    </div>
+  {{/each}}
+  </div>
+</main>
+
+<script>
+
+  const username = localStorage.getItem("user"); if (username) {
+  document.getElementsByClassName("card")[0].innerHTML =
+  `<h2 class="my-3">New Post</h2> <div class="card-body"> <form action="/"
+  method="post"> <div class="input-group mb-3"> <span class="input-group-text"
+  id="basic-addon1">Title</span> <input name="title" type="text"
+  class="form-control" aria-label="Username" aria-describedby="basic-addon1" />
+  </div> <div class="input-group mb-3"> <span class="input-group-text"
+  id="inputGroup-sizing-default" >Description</span> <input name="description"
+  type="text" class="form-control" aria-label="Sizing example input"
+  aria-describedby="inputGroup-sizing-default" /> </div> <input hidden name="user" value=${localStorage.getItem("user")} /> <button class="btn
+  btn-danger">Publicar</button> </form> </div>`;} else {
+  document.getElementsByClassName("card")[0].innerHTML = ` <div class="alert
+  alert-danger" role="alert" style="margin-bottom: 0"> Hacer el favor de <a
+  href="/login" class="alert-link">loguearse</a> antes de realizar una
+  publicación. </div> `; }
+
+</script>
