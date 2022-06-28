@@ -18,6 +18,7 @@
         <h5 class="card-title">{{title}}</h5>
         <p class="card-text">{{description}}</p>
         <p class="card-text"><small id="user" class="text-muted">~ {{ user }}</small></p>
+        <p class="card-text"><small id="user" class="text-muted">{{ createdAt }}</small></p>
       </div>
       {{#if userImage}}
         <img src={{userImage}} class="card-img-bottom" alt="..." />

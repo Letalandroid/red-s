@@ -1,6 +1,7 @@
 const postModel = require("../models/posts");
 const { Router } = require("express");
 const router = Router();
+let d = new Date();
 
 router.get("/", async (_req, res) => {
   const posts = await postModel.find().lean();
@@ -26,6 +27,7 @@ router.post("/", async (req, res) => {
       title,
       description,
       user,
+      createdAt: new Date()
     });
 
     await newPost.save();

@@ -5,9 +5,14 @@ const postSchema = new Schema(
   {
     title: String,
     description: String,
-    user: String
+    user: String,
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  { versionKey: false }
+  { versionKey: false },
+  { timestamps: { createdAt: "createdAt" } }
 );
 
 // Crear un modelo
