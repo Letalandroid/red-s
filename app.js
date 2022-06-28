@@ -5,7 +5,9 @@ const app = express();
 const path = require("path");
 const override = require("method-override");
 const exphbs = require("express-handlebars");
-const routes = require("./routes");
+const userRoutes = require("./routes/user.routes");
+const postsRoutes = require("./routes/posts.routes");
+const apiRoutes = require("./routes/api.routes");
 require("dotenv").config();
 
 // Settings
@@ -13,7 +15,9 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(override("_method"));
-app.use(routes);
+app.use(userRoutes);
+app.use(postsRoutes);
+app.use(apiRoutes);
 app.use(express.json());
 
 app.set("views", path.join(__dirname, "views"));

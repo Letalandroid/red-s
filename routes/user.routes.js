@@ -1,20 +1,8 @@
 const { Router } = require("express");
-const userModel = require("./models/users");
-const postModel = require("./models/posts");
+const userModel = require("../models/users");
 const bcrypt = require("bcryptjs");
 
 const router = Router();
-
-router.get("/", async (_req, res) => {
-
-  const posts = await postModel.find().lean();
-
-  res.render("home", {
-    title: "Home",
-    posts,
-    style: "home"
-  });
-});
 
 router.get("/register", async (_req, res) => {
   res.render("register", {
@@ -83,18 +71,6 @@ router.post("/login", async (req, res) => {
       error: "User does not existing",
     });
   }
-});
-
-router.post("/", async (req, res) => {
-  const { title, description, user } = req.body;
-  const newPost = new postModel({
-    title,
-    description,
-    user
-  });
-
-  await newPost.save();
-  res.redirect("/");
 });
 
 router.get("/logout", async (_req, res) => {
