@@ -16,24 +16,36 @@ router.get("/", async (_req, res) => {
 router.post("/", async (req, res) => {
   const { title, description, user } = req.body;
 
-  if (title === "" || description === "" || title.startsWith(" ") || description.startsWith(" ")) {
+  if (
+    title === "" ||
+    description === "" ||
+    title.startsWith(" ") ||
+    description.startsWith(" ")
+  ) {
     res.render("home", {
       title: "Home",
       style: "home",
       error: "Please fill all fields",
     });
   } else {
-    const newPost = new postModel({
-      title,
-      description,
-      user,
-      createdAt: new Date()
-    });
+    if (title.length > 30 || description.length > 60) {
+      res.render("home", {
+        title: "Home",
+        style: "home",
+        error: "Title or description too long",
+      });
+    } else {
+      const newPost = new postModel({
+        title,
+        description,
+        user,
+        createdAt: new Date(),
+      });
 
-    await newPost.save();
-    res.redirect("/");
+      await newPost.save();
+      res.redirect("/");
+    }
   }
-
 });
 
 module.exports = router;

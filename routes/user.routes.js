@@ -22,6 +22,14 @@ router.post("/register", async (req, res) => {
       error: "User already Use",
     });
   } else if (password === pass_repeat) {
+
+    if (user === "" || password === "" || user.startsWith(" ") || password.startsWith(" ")) {
+    res.render("register", {
+      title: "Register",
+      style: "register",
+      error: "Please fill all fields",
+    });
+  } else {
     const newUser = new userModel({
       user,
       password
@@ -31,6 +39,8 @@ router.post("/register", async (req, res) => {
 
     await newUser.save();
     res.redirect("/login");
+  }
+
   } else if (password !== pass_repeat) {
     res.render("register", {
       title: "Register",
