@@ -8,3 +8,7 @@ main {
     flex-direction: column;
     align-items: center;
 }
+
+.m-3 {
+    width: 300px;
+}
